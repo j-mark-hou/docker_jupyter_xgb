@@ -9,6 +9,23 @@ RUN git clone --recursive https://github.com/dmlc/xgboost && \
     cd xgboost; make -j4
 RUN cd xgboost/python-package && python setup.py install
 
+#install cmake, which we need for lgb
+RUN apt-get update  && \
+	apt-get install -y software-properties-common && \
+	add-apt-repository ppa:george-edison55/cmake-3.x &&\
+	apt-get update && \
+	apt-get install -y cmake
+
+# install lightgbm now
+RUN git clone --recursive https://github.com/Microsoft/LightGBM &&\
+	cd LightGBM && \
+	mkdir build && \
+	cd build && \
+	cmake .. && \
+	make -j4
+RUN cd LightGBM/python-package && \
+	python setup.py install
+
 # re-set workdir to the previous place and user to the notebook user
 # these env variables are defined in in https://github.com/jupyter/docker-stacks/blob/master/base-notebook/Dockerfile
 USER $NB_UID 
