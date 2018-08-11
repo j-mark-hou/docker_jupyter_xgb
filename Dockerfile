@@ -11,9 +11,6 @@ RUN cd xgboost/python-package && python setup.py install
 
 #install cmake, which we need for lgb
 RUN apt-get update  && \
-	apt-get install -y software-properties-common && \
-	add-apt-repository ppa:george-edison55/cmake-3.x &&\
-	apt-get update && \
 	apt-get install -y cmake
 
 # install lightgbm now
